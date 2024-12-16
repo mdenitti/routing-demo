@@ -14,6 +14,7 @@ import { JsonPipe } from '@angular/common';
 export class UserComponent implements OnInit, OnDestroy {
   userId: string = '';
   users!: Promise<any> [];
+  singleUser: any;
   private routeSub!: Subscription;
 
   constructor(private route: ActivatedRoute, private usersService: UsersService) { }
@@ -25,6 +26,9 @@ export class UserComponent implements OnInit, OnDestroy {
     // Subscribe to parameter changes
     this.routeSub = this.route.params.subscribe(params => {
       this.userId = params['id'];
+      this.usersService.getUserById(parseInt(this.userId)).then(data => {
+        this.singleUser = data
+      });
     });
   }
 
